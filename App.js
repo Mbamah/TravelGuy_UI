@@ -15,8 +15,8 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}} >
-        <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="onBoarding" component={onBoarding} />
+        <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Details" component={Details} />
       </Stack.Navigator>
     </NavigationContainer>

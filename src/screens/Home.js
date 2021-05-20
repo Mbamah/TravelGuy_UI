@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
 import COLORS from "../consts/colors";
@@ -19,7 +20,7 @@ import { EvilIcons } from "@expo/vector-icons";
 import places from "../consts/places";
 const { width } = Dimensions.get("screen");
 
-const Home = () => {
+const Home = ({ navigation }) => {
   // catergories
   const categoryIcons = [
     <MaterialIcons name="flight" size={25} color={COLORS.primary} />,
@@ -45,37 +46,56 @@ const Home = () => {
   const Card = ({ place }) => {
     // console.log(place)
     return (
-      <ImageBackground style={style.cardImage} source={place.image}>
-        <Text
-          style={{
-            color: COLORS.white,
-            fontSize: 20,
-            fontWeight: "bold",
-            marginTop: 10,
-          }}
-        >
-          {place.name}
-        </Text>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "space-between",
-            flexDirection: "row",
-            alignItems: "flex-end",
-          }}
-        >
-          <View style={{ flexDirection: "row", alignItems:'center', justifyContent:'center' }}>
-            <EvilIcons name="location" size={20} color={COLORS.white} />
-            <Text style={{ color: COLORS.white, marginLeft: 5 }}>
-              {place.location}
-            </Text>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => {
+          navigation.navigate("Details",  place );
+        }}
+      >
+        <ImageBackground style={style.cardImage} source={place.image}>
+          <Text
+            style={{
+              color: COLORS.white,
+              fontSize: 20,
+              fontWeight: "bold",
+              marginTop: 10,
+            }}
+          >
+            {place.name}
+          </Text>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "space-between",
+              flexDirection: "row",
+              alignItems: "flex-end",
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <EvilIcons name="location" size={20} color={COLORS.white} />
+              <Text style={{ color: COLORS.white, marginLeft: 5 }}>
+                {place.location}
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <AntDesign name="staro" size={20} color={COLORS.white} />
+              <Text style={{ color: COLORS.white, marginLeft: 5 }}>5.0</Text>
+            </View>
           </View>
-          <View style={{ flexDirection: "row", alignItems:'center', justifyContent:'center' }}>
-            <AntDesign name="staro" size={20} color={COLORS.white} />
-            <Text style={{ color: COLORS.white, marginLeft: 5 }}>5.0</Text>
-          </View>
-        </View>
-      </ImageBackground>
+        </ImageBackground>
+      </TouchableOpacity>
     );
   };
 
@@ -100,7 +120,13 @@ const Home = () => {
           }}
         >
           <View style={{ flexDirection: "row", width: "100%", marginTop: 10 }}>
-            <View style={{ flexDirection: "row", alignItems:'center',justifyContent:'center' }}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <EvilIcons name="location" size={22} color={COLORS.white} />
               <Text style={{ color: COLORS.white, marginLeft: 5 }}>
                 {place.location}
@@ -111,14 +137,16 @@ const Home = () => {
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "center",
-                marginLeft:15
+                marginLeft: 15,
               }}
             >
               <AntDesign name="staro" size={22} color={COLORS.white} />
               <Text style={{ color: COLORS.white, marginLeft: 7 }}>5.0</Text>
             </View>
           </View>
-          <Text style={{color:COLORS.white, fontSize:13}}>{place.details}</Text>
+          <Text style={{ color: COLORS.white, fontSize: 13 }}>
+            {place.details}
+          </Text>
         </View>
       </ImageBackground>
     );
@@ -126,7 +154,7 @@ const Home = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
-      <StatusBar backgroundColor={COLORS.primary} />
+      <StatusBar translucent backgroundColor={COLORS.primary} />
       <View style={style.header}>
         <MaterialIcons name="sort" size={28} color={COLORS.white} />
         <Ionicons name="notifications-outline" size={28} color={COLORS.white} />
@@ -172,8 +200,8 @@ const Home = () => {
           />
           <Text style={style.sectionTitle}>Recommended</Text>
           <FlatList
-          snapToInterval={width - 20}
-          contentContainerStyle={{paddingLeft:20, paddingBottom:20}}
+            snapToInterval={width - 20}
+            contentContainerStyle={{ paddingLeft: 20, paddingBottom: 20 }}
             horizontal
             showsHorizontalScrollIndicator={false}
             data={places}
